@@ -460,7 +460,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "demo_kicad.kicad_pro",
+    "filename": "Shield_capteur.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -678,7 +678,7 @@
   "sheets": [
     [
       "e63e39d7-6ac0-4ffd-8aa3-1841a4541b55",
-      "Root"
+      "Racine"
     ]
   ],
   "text_variables": {

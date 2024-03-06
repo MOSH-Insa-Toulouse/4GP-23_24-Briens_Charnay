@@ -9,9 +9,9 @@
 		(date "2024-02-28")
 		(rev "1.0")
 		(company "INSA")
-		(comment 2 "${EMAIL}")
-		(comment 3 "Alexis Briens")
-		(comment 4 "CAO Operator")
+		(comment 2 "Matthieu CHARNAY")
+		(comment 3 "Alexis BRIENS")
+		(comment 4 "Opérateurs CAO")
 	)
 	(lib_symbols
 		(symbol "Connector_Generic:Conn_01x06"
