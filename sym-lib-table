@@ -1,4 +1,6 @@
 (sym_lib_table
   (version 7)
   (lib (name "New_Library_symbol_capteur")(type "KiCad")(uri "${KIPRJMOD}/New_Library_symbol_capteur.kicad_sym")(options "")(descr ""))
+  (lib (name "GRM033B31A104KE84D")(type "KiCad")(uri "${KIPRJMOD}/BC104_symbol/GRM033B31A104KE84D.kicad_sym")(options "")(descr ""))
+  (lib (name "LTC1050ACN8_PBF")(type "KiCad")(uri "${KIPRJMOD}/LTC1050ACN8_PBF/LTC1050ACN8_PBF.kicad_sym")(options "")(descr ""))
 )
