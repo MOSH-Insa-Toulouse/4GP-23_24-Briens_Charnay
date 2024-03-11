@@ -493,7 +493,7 @@
         "microvia_drill": 0.1,
         "name": "ANALOG",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "schematic_color": "rgb(255, 244, 64)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.8,
         "via_diameter": 2.2,
         "via_drill": 0.8,
@@ -762,7 +762,7 @@
   "sheets": [
     [
       "e63e39d7-6ac0-4ffd-8aa3-1841a4541b55",
-      "Root"
+      "Racine"
     ]
   ],
   "text_variables": {
