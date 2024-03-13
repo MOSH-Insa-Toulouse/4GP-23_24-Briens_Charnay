@@ -1,4 +1,4 @@
-23051596969071989
+23051595805260436
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -63426,13 +63426,6 @@ PDIP-8_N
 0
 8
 8
-MCP4131-103E_SN
-SOIC127P599X175-8N
-
-
-0
-8
-8
 Module
 A20_OLINUXINO_LIME2
 A20 Olinuxino LIME2, 1.2GHz, 512-1024MB RAM, Micro-SD, NAND or eMMC, 1000Mbit Ethernet
@@ -66093,6 +66086,13 @@ net tie
 0
 4
 4
+New_bouton
+Boutons_x3
+Through hole straight socket strip, 1x10, 2.54mm pitch, single row (from Kicad 4.0.7), script generated
+Through hole socket strip THT 1x10 2.54mm single row
+0
+20
+10
 OptoDevice
 ADNS-9800
 Laser Gaming Sensor ADNS-9800

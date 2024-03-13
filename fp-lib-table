@@ -3,4 +3,5 @@
   (lib (name "footprint_BC104")(type "KiCad")(uri "${KIPRJMOD}/BC104_symbol/footprint_BC104.pretty")(options "")(descr ""))
   (lib (name "BC104_symbol")(type "KiCad")(uri "${KIPRJMOD}/BC104_symbol")(options "")(descr ""))
   (lib (name "LTC1050ACN8_PBF")(type "KiCad")(uri "${KIPRJMOD}/LTC1050ACN8_PBF")(options "")(descr ""))
+  (lib (name "New_bouton")(type "KiCad")(uri "${KIPRJMOD}/footprint_boutons_x3/New_bouton.pretty")(options "")(descr ""))
 )
