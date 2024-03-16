@@ -3444,6 +3444,10 @@
 		(uuid "15c3945b-d429-4eb3-9b78-9c684c7a9414")
 	)
 	(no_connect
+		(at 100.33 53.34)
+		(uuid "17c0112e-e0dd-4b7a-86db-4167e459f82a")
+	)
+	(no_connect
 		(at 176.53 130.81)
 		(uuid "17c2e1ce-bcf2-4374-b769-a415ff2f8c58")
 	)
@@ -3462,10 +3466,6 @@
 	(no_connect
 		(at 100.33 88.9)
 		(uuid "579856dd-645e-4734-80b1-27d0c0f21aa7")
-	)
-	(no_connect
-		(at 100.33 83.82)
-		(uuid "642bab54-4616-479a-8662-4ba5a0bc9924")
 	)
 	(no_connect
 		(at 44.45 48.26)
@@ -4297,7 +4297,7 @@
 		)
 		(uuid "2c60ab74-0590-423b-8921-6f3212a358d2")
 	)
-	(label "D12"
+	(label "D4"
 		(at 203.2 60.96 0)
 		(fields_autoplaced yes)
 		(effects
@@ -4363,7 +4363,7 @@
 		)
 		(uuid "49585dba-cfa7-4813-841e-9d900d43ecf4")
 	)
-	(label "D4"
+	(label "*3"
 		(at 184.15 60.96 0)
 		(fields_autoplaced yes)
 		(effects
@@ -4507,7 +4507,7 @@
 		(uuid "bbf52cf8-6d97-4499-a9ee-3657cebcdabf")
 	)
 	(label "D2"
-		(at 170.18 60.96 0)
+		(at 175.26 60.96 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5488,7 +5488,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 175.26 60.96 180)
+		(at 170.18 60.96 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5496,7 +5496,7 @@
 		(dnp no)
 		(uuid "0cc440b9-1cc9-4b71-96d8-f9bf9d0c54f3")
 		(property "Reference" "#PWR022"
-			(at 175.26 54.61 0)
+			(at 170.18 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5505,7 +5505,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 175.26 57.15 0)
+			(at 170.18 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5513,7 +5513,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 175.26 60.96 0)
+			(at 170.18 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5521,7 +5521,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 175.26 60.96 0)
+			(at 170.18 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5529,7 +5529,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 175.26 60.96 0)
+			(at 170.18 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
