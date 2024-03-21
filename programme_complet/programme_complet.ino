@@ -1,6 +1,10 @@
 #include <SoftwareSerial.h>
 #include <Adafruit_SSD1306.h>
 #include <SPI.h>
+//#include <Servo.h>
+
+//#define pinServo 2
+//Servo myservo;
 
 #define flexPin A1
 #define flexR_DIV 39000
@@ -17,17 +21,17 @@ char bufferBluetoothInput[sizeBuffer]={0};
 
 #define ampliPin A0
 
-#define upButton 2
-int upState;
-int lastUpState=1;
+#define upButton 3
+uint8_t upState;
+uint8_t lastUpState=1;
 long upTimer;
-#define downButton 4
-int downState;
-int lastDownState=1;
+#define downButton 5
+uint8_t downState;
+uint8_t lastDownState=1;
 long downTimer;
 #define selectButton 12
-int selectState;
-int lastSelectState=1;
+uint8_t selectState;
+uint8_t lastSelectState=1;
 long selectTimer;
 #define debounceDelay 50
 
@@ -40,19 +44,21 @@ Adafruit_SSD1306 ecranOLED(nombreDePixelsEnLargeur, nombreDePixelsEnHauteur, &Wi
 #define nbOptionsPotar 5
 #define nbOptionsUnite 3
 const int tabChoixPotar[nbOptionsPotar]={1,10,100,1000,10000};
-int choixPotar=4;
-int choixUnite=0;
-int positionMenu=0;
-int selection=0;
+uint8_t choixPotar=4;
+uint8_t choixUnite=0;
+uint8_t positionMenu=0;
+uint8_t selection=0;
 
 #define MCP_NOP 0b000000000
 #define MCP_WRITE 0b00010001
 #define MCP_SHTDWN 0b00100001
 
-const int ssMCPin = 10;
+const uint8_t ssMCPin = 10;
 const int adresseChoixPotar[nbOptionsPotar]={1,102,153,204,255};
 
-const float VCC=5;
+const uint8_t VCC=5;
+
+uint8_t testEnCours=1;
 
 void setup() {
   Serial.begin(baudrate);
@@ -81,6 +87,9 @@ void setup() {
   pinMode(ssMCPin,OUTPUT);
   digitalWrite(ssMCPin,HIGH);
   SPI.begin();
+
+  //~~ Controle Servomoteur ~~//
+  //myservo.attach(pinServo);
 }
 
 void loop() {
@@ -120,6 +129,9 @@ void loop() {
   
   //~~~~~~~~~~~~~~~~ Potentiometre digital ~~~~~~~~~~~~~~~~//
   updatePotar();
+
+  //~~~~~~~~~~~~~~~~ Servomoteur ~~~~~~~~~~~~~~~~//
+  //protocoleTest();
 
   delay(20);
 }
@@ -303,3 +315,11 @@ int compteNbChiffres(int cible)
   }
   return(compte);
 }
+/*
+void protocoleTest()
+{
+  int pos=30*choixPotar;
+  Serial.print(F("\nPos : "));
+  Serial.println(pos);
+  if(testEnCours)myservo.write(pos);
+}*/
