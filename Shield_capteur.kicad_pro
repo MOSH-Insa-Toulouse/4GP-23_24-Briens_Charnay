@@ -39,7 +39,7 @@
         "pads": {
           "drill": 1.0,
           "height": 2.0,
-          "width": 2.5
+          "width": 2.54
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
@@ -60,6 +60,24 @@
         }
       ],
       "drc_exclusions": [
+        "clearance|121336000|49470000|8a2a0c3c-afd3-4fc0-8335-c8cdebe19069|53d55053-23d5-47c4-ae1a-096372b59dfe",
+        "clearance|123876000|49470000|53d55053-23d5-47c4-ae1a-096372b59dfe|0538039b-679e-4566-b0f6-d1dca51b81a6",
+        "clearance|126416000|49470000|0538039b-679e-4566-b0f6-d1dca51b81a6|52bfa648-49f3-43c4-a92f-09a020bcf6f1",
+        "clearance|128956000|49470000|52bfa648-49f3-43c4-a92f-09a020bcf6f1|31a2671f-7c35-4f2a-bf7b-0ea49c31992c",
+        "clearance|131496000|49470000|31a2671f-7c35-4f2a-bf7b-0ea49c31992c|0b3cab23-1b3b-4478-a15c-9a9089de498e",
+        "clearance|134036000|49470000|0b3cab23-1b3b-4478-a15c-9a9089de498e|60ab1308-c3cf-4eb7-89a2-9b517bef58fc",
+        "clearance|136576000|49470000|60ab1308-c3cf-4eb7-89a2-9b517bef58fc|9f147e98-0360-4eb5-878f-7136c27a65b1",
+        "clearance|139116000|49470000|9f147e98-0360-4eb5-878f-7136c27a65b1|960a3d90-c5cc-4e56-80ed-d10965c73eee",
+        "clearance|144790000|44130000|c0a62ca2-41a9-4608-b386-dba1345a59ea|0dd5c369-f54d-4d13-a723-cdd9c7fa6327",
+        "clearance|147330000|44130000|52d28e30-80d2-42c3-9dde-c56d3b2b0444|c0a62ca2-41a9-4608-b386-dba1345a59ea",
+        "clearance|148260000|49470000|e21589c8-9acb-4dfd-b26e-575a983b7f76|f12e60f2-da16-4904-b4d4-cf95f3eabc57",
+        "clearance|150800000|49470000|f12e60f2-da16-4904-b4d4-cf95f3eabc57|ebc36dc4-a03d-4f33-8b8b-cf0052b39d61",
+        "clearance|153340000|49470000|ebc36dc4-a03d-4f33-8b8b-cf0052b39d61|c166337a-a32b-4b24-8138-2d06c6a9a023",
+        "clearance|155880000|49470000|c166337a-a32b-4b24-8138-2d06c6a9a023|4489a306-6cbf-4d6d-b304-35018fbedf01",
+        "clearance|158420000|49470000|4489a306-6cbf-4d6d-b304-35018fbedf01|6d6ed4f7-6224-439b-99e3-86d1022efe1b",
+        "clearance|160960000|49470000|6d6ed4f7-6224-439b-99e3-86d1022efe1b|d9fd5e0c-3c54-4825-a824-15d8041c0356",
+        "clearance|161260000|59600000|6f269d73-7334-4bda-8f18-90cc61321c20|c2606f6f-e82b-491f-b65b-1293eb14775f",
+        "clearance|161280000|53930000|5f4b4c2e-8277-4377-8bb1-3e4d88f702c8|bfd40866-bab1-45f3-9fc7-61790418b934",
         "lib_footprint_issues|113970000|97460000|e37b79bf-98e8-4522-b749-f0e7c6a98bbc|00000000-0000-0000-0000-000000000000",
         "lib_footprint_issues|115240000|49200000|6e571799-0217-4b63-970e-fdbb6a7139e3|00000000-0000-0000-0000-000000000000",
         "lib_footprint_issues|166040000|64440000|e9ebf119-598a-41fd-98be-2dbed0b47309|00000000-0000-0000-0000-000000000000",
@@ -191,7 +209,8 @@
         0.2,
         0.4,
         0.5,
-        0.6
+        0.6,
+        0.8
       ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
