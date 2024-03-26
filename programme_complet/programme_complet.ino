@@ -74,6 +74,7 @@ void setup() {
   pinMode(bluetoothTxPin,OUTPUT);
   mySerial.begin(baudrate);
   bufferBluetoothOutput[0]='\0';
+  bufferBluetoothOutput[sizeBuffer-1]='\0';
 
   //~~ Boutons ~~//
   pinMode(upButton,INPUT_PULLUP);
@@ -109,23 +110,24 @@ void loop() {
 
   //~~~~~~~~~~~~~~~~ Bluetooth ~~~~~~~~~~~~~~~~//
   commBluetooth(bufferBluetoothOutput,bufferBluetoothInput);
-  sendMsg('d',millis()+0.1234567,4);
+  if(bufferBluetoothInput[0]=='d'){
+    sendMsg('d',sqrt(millis()),4);
+    bufferBluetoothInput[0]='\0';
+  }
   
   //~~~~~~~~~~~~~~~~ Boutons ~~~~~~~~~~~~~~~~//
   debouncingButtons();
 
   //~~~~~~~~~~~~~~~~ OLED ~~~~~~~~~~~~~~~~//
-  updateOLED(positionMenu);
-  Serial.println(F("Hello"));
-  Serial.print(F("Potentiometre(0-4) : "));
+  updateOLED(sqrt(millis()));
+  /*Serial.print(F("Potentiometre(0-4) : "));
   Serial.print(choixPotar);
   Serial.print(F(" ; Unite(0-2) : "));
   Serial.println(choixUnite);
   Serial.print(F(" ; selection(V/F) : "));
   Serial.print(selection);
   Serial.print(F(" ; positionMenu(0-2) : "));
-  Serial.println(positionMenu);
-  Serial.println(F("bye\n"));
+  Serial.println(positionMenu);*/
   
   //~~~~~~~~~~~~~~~~ Potentiometre digital ~~~~~~~~~~~~~~~~//
   updatePotar();
@@ -133,7 +135,7 @@ void loop() {
   //~~~~~~~~~~~~~~~~ Servomoteur ~~~~~~~~~~~~~~~~//
   //protocoleTest();
 
-  delay(20);
+  //delay(20);
 }
 
 void debouncingButtons()
@@ -233,13 +235,19 @@ void commBluetooth(char* bufferOutput, char* bufferInput)
 
 void sendMsg(char command,float data,int precision)
 {//ATTENTION : cette fonction écrase le buffer output du bluetooth, toute donnée encore en attente sera perdue
+  for(int i=1;i<sizeBuffer-1;i++){
+    bufferBluetoothOutput[i]='/';
+  }
   bufferBluetoothOutput[0]=command;
   char temp[sizeBuffer-1];
   dtostrf(data,0,precision,temp);
-  strcpy(&bufferBluetoothOutput[1],temp);
+  strcpy(&bufferBluetoothOutput[1],temp);//1
+  for(int i=1;i<sizeBuffer-1;i++){
+    if(bufferBluetoothOutput[i]=='\0')bufferBluetoothOutput[i]='/';
+  }
 }
 
-void updateOLED(int valeur)
+void updateOLED(float valeur)
 {
   ecranOLED.clearDisplay();
   ecranOLED.setTextSize(1,1);
@@ -247,8 +255,8 @@ void updateOLED(int valeur)
   ecranOLED.setTextColor(SSD1306_WHITE);
 
   ecranOLED.print(F(" ~ Controle mesure ~\n\n"));
-  ecranOLED.print(F("Potentiometre :\n         "));
-  for(int i=6;i>compteNbChiffres(tabChoixPotar[choixPotar]);i--)ecranOLED.print(' ');
+  ecranOLED.print(F("Potentiometre :\n     "));
+  for(int i=10;i>compteNbCaract(tabChoixPotar[choixPotar]);i--)ecranOLED.print(' ');
   miseEnFormeMenu(1,1);
   ecranOLED.print(tabChoixPotar[choixPotar]);
   miseEnFormeMenu(1,0);
@@ -261,7 +269,7 @@ void updateOLED(int valeur)
   if(choixUnite==2)ecranOLED.print(F("Ampere"));
   miseEnFormeMenu(2,2);
   ecranOLED.print(F("\n\nMesure :\n         "));
-  ecranOLED.print(compteNbChiffres(tabChoixPotar[choixPotar]));
+  ecranOLED.print(valeur);
   ecranOLED.print(' ');
   if(choixUnite==0)ecranOLED.print('V');
   if(choixUnite==1)ecranOLED.print('O');
@@ -305,14 +313,15 @@ void updatePotar()
   SPIWrite(MCP_WRITE,adresseChoixPotar[choixPotar],ssMCPin);
 }
 
-int compteNbChiffres(int cible)
+int compteNbCaract(float cible)
 {
   uint8_t compte=1;
   uint32_t comparateur=10;
-  while(cible>comparateur-1){
+  while(cible>=comparateur){
     compte++;
     comparateur*=10;
   }
+  if(cible!=int(cible))compte++;
   return(compte);
 }
 /*
