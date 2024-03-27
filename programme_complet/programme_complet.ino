@@ -25,11 +25,11 @@ char bufferBluetoothInput[sizeBuffer]={0};
 uint8_t upState;
 uint8_t lastUpState=1;
 long upTimer;
-#define downButton 5
+#define downButton 2
 uint8_t downState;
 uint8_t lastDownState=1;
 long downTimer;
-#define selectButton 12
+#define selectButton 4
 uint8_t selectState;
 uint8_t lastSelectState=1;
 long selectTimer;
@@ -43,7 +43,7 @@ Adafruit_SSD1306 ecranOLED(nombreDePixelsEnLargeur, nombreDePixelsEnHauteur, &Wi
 
 #define nbOptionsPotar 5
 #define nbOptionsUnite 3
-const int tabChoixPotar[nbOptionsPotar]={1,10,100,1000,10000};
+const uint32_t tabChoixPotar[nbOptionsPotar]={340,20500,30600,40900,51000};
 uint8_t choixPotar=4;
 uint8_t choixUnite=0;
 uint8_t positionMenu=0;
@@ -119,7 +119,7 @@ void loop() {
   debouncingButtons();
 
   //~~~~~~~~~~~~~~~~ OLED ~~~~~~~~~~~~~~~~//
-  updateOLED(sqrt(millis()));
+  updateOLED(ampliVolt);
   /*Serial.print(F("Potentiometre(0-4) : "));
   Serial.print(choixPotar);
   Serial.print(F(" ; Unite(0-2) : "));
@@ -321,7 +321,6 @@ int compteNbCaract(float cible)
     compte++;
     comparateur*=10;
   }
-  if(cible!=int(cible))compte++;
   return(compte);
 }
 /*
