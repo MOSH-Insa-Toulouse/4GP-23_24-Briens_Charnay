@@ -41,9 +41,9 @@ long selectTimer;
 #define adresseI2CecranOLED     0x3C
 Adafruit_SSD1306 ecranOLED(nombreDePixelsEnLargeur, nombreDePixelsEnHauteur, &Wire, brocheResetOLED);
 
-#define nbOptionsPotar 5
+#define nbOptionsPotar 9
 #define nbOptionsUnite 3
-const uint32_t tabChoixPotar[nbOptionsPotar]={340,20500,30600,40900,51000};
+const uint32_t tabChoixPotar[nbOptionsPotar]={340,1000,2000,5000,10200,20500,30600,40900,51000};
 uint8_t choixPotar=4;
 uint8_t choixUnite=0;
 uint8_t positionMenu=0;
@@ -54,7 +54,7 @@ uint8_t selection=0;
 #define MCP_SHTDWN 0b00100001
 
 const uint8_t ssMCPin = 10;
-const int adresseChoixPotar[nbOptionsPotar]={1,102,153,204,255};
+const int adresseChoixPotar[nbOptionsPotar]={1,4,9,50,101,102,153,204,255};
 
 const uint8_t VCC=5;
 
@@ -111,6 +111,9 @@ void loop() {
   //~~~~~~~~~~~~~~~~ Bluetooth ~~~~~~~~~~~~~~~~//
   commBluetooth(bufferBluetoothOutput,bufferBluetoothInput);
   if(bufferBluetoothInput[0]=='d'){
+    //char unit='V';
+    //if(choixUnite==1)unit='O';
+    //if(choixUnite==2)unit='d';
     sendMsg('d',sqrt(millis()),4);
     bufferBluetoothInput[0]='\0';
   }
@@ -119,7 +122,8 @@ void loop() {
   debouncingButtons();
 
   //~~~~~~~~~~~~~~~~ OLED ~~~~~~~~~~~~~~~~//
-  updateOLED(ampliVolt);
+  //updateOLED(conversionMesure(ampliVolt));
+  //Serial.println(ampliVolt);
   /*Serial.print(F("Potentiometre(0-4) : "));
   Serial.print(choixPotar);
   Serial.print(F(" ; Unite(0-2) : "));
@@ -266,14 +270,14 @@ void updateOLED(float valeur)
   miseEnFormeMenu(2,1);
   if(choixUnite==0)ecranOLED.print(F("Volt"));
   if(choixUnite==1)ecranOLED.print(F("Ohm"));
-  if(choixUnite==2)ecranOLED.print(F("Ampere"));
+  if(choixUnite==2)ecranOLED.print(F("Degre"));
   miseEnFormeMenu(2,2);
   ecranOLED.print(F("\n\nMesure :\n         "));
   ecranOLED.print(valeur);
   ecranOLED.print(' ');
   if(choixUnite==0)ecranOLED.print('V');
-  if(choixUnite==1)ecranOLED.print('O');
-  if(choixUnite==2)ecranOLED.print('A');
+  if(choixUnite==1)ecranOLED.print(F("MO"));
+  if(choixUnite==2)ecranOLED.print(F("deg"));
 
   ecranOLED.display();
 }
@@ -323,6 +327,14 @@ int compteNbCaract(float cible)
   }
   return(compte);
 }
+
+/*float conversionMesure(float mesure)
+{
+  if(choixUnite==0)return(mesure*5.0/1023.0);
+  if(choixUnite==1)return(((1+100000.0/tabChoixPotar[choixPotar])*100000.0*(5.0/mesure)-110000.0)/1000000.0);
+  return(-1);
+}*/
+
 /*
 void protocoleTest()
 {
