@@ -11,8 +11,8 @@
 #define flexflatResistance 25000
 #define flexbendResistance 100000
 
-#define bluetoothRxPin 8
-#define bluetoothTxPin 7
+#define bluetoothRxPin 7
+#define bluetoothTxPin 8
 #define baudrate 9600
 #define sizeBuffer 16
 SoftwareSerial mySerial(bluetoothRxPin,bluetoothTxPin);
@@ -110,19 +110,29 @@ void loop() {
 
   //~~~~~~~~~~~~~~~~ Bluetooth ~~~~~~~~~~~~~~~~//
   commBluetooth(bufferBluetoothOutput,bufferBluetoothInput);
-  if(bufferBluetoothInput[0]=='d'){
-    //char unit='V';
-    //if(choixUnite==1)unit='O';
-    //if(choixUnite==2)unit='d';
-    sendMsg('d',sqrt(millis()),4);
-    bufferBluetoothInput[0]='\0';
+  if(bufferBluetoothInput[0]=='d'){//si l'app envoie une demande de "data"
+    char unit='V';
+    if(choixUnite==1)unit='O';
+    if(choixUnite==2)unit='D';
+    //un message composé de l'unité et de la mesure est envoyé
+    sendMsg(unit,conversionMesure(ampliVolt),6);
   }
+  if(bufferBluetoothInput[0]=='V'){
+    choixUnite=0;
+  }
+  if(bufferBluetoothInput[0]=='O'){
+    choixUnite=1;
+  }
+  if(bufferBluetoothInput[0]=='D'){
+    choixUnite=2;
+  }
+  bufferBluetoothInput[0]='\0';
   
   //~~~~~~~~~~~~~~~~ Boutons ~~~~~~~~~~~~~~~~//
   debouncingButtons();
 
   //~~~~~~~~~~~~~~~~ OLED ~~~~~~~~~~~~~~~~//
-  //updateOLED(conversionMesure(ampliVolt));
+  updateOLED(conversionMesure(ampliVolt));
   //Serial.println(ampliVolt);
   /*Serial.print(F("Potentiometre(0-4) : "));
   Serial.print(choixPotar);
@@ -328,12 +338,12 @@ int compteNbCaract(float cible)
   return(compte);
 }
 
-/*float conversionMesure(float mesure)
+float conversionMesure(float mesure)
 {
   if(choixUnite==0)return(mesure*5.0/1023.0);
   if(choixUnite==1)return(((1+100000.0/tabChoixPotar[choixPotar])*100000.0*(5.0/mesure)-110000.0)/1000000.0);
   return(-1);
-}*/
+}
 
 /*
 void protocoleTest()
