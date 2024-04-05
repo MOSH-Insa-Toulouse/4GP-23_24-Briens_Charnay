@@ -98,9 +98,9 @@ void loop() {
   //else{choixPotar=4;}
 
    //~~~~~~~~~~~~~~~~ Flex Sensor ~~~~~~~~~~~~~~~~//
-  int temp=analogRead(flexPin);
-  if(temp==0)temp=1;//eviter division par 0 dans la formule suivante
-  float flexRes=flexR_DIV*(1023.0/temp-1.0);
+  int flexVolt=analogRead(flexPin);
+  if(flexVolt==0)flexVolt=1;//eviter division par 0 dans la formule suivante
+  float flexRes=flexR_DIV*(1023.0/flexVolt-1.0);
   float flexAngle=map(flexRes,flexflatResistance,flexbendResistance,0,90.0);
 
   //Serial.println("Cadeau, res : "+String(flexRes)+" ; angle : "+String(flexAngle)+"°.");
@@ -132,7 +132,7 @@ void loop() {
   debouncingButtons();
 
   //~~~~~~~~~~~~~~~~ OLED ~~~~~~~~~~~~~~~~//
-  updateOLED(conversionMesure(ampliVolt));
+  updateOLED(conversionMesure(ampliVolt),choixMesureFlex(flexVolt,flexRes,flexAngle));
   //Serial.println(ampliVolt);
   /*Serial.print(F("Potentiometre(0-4) : "));
   Serial.print(choixPotar);
@@ -261,7 +261,7 @@ void sendMsg(char command,float data,int precision)
   }
 }
 
-void updateOLED(float valeur)
+void updateOLED(float valeurCapGraph,float valeurFlexSensor)
 {
   ecranOLED.clearDisplay();
   ecranOLED.setTextSize(1,1);
@@ -269,8 +269,8 @@ void updateOLED(float valeur)
   ecranOLED.setTextColor(SSD1306_WHITE);
 
   ecranOLED.print(F(" ~ Controle mesure ~\n\n"));
-  ecranOLED.print(F("Potentiometre :\n     "));
-  for(int i=10;i>compteNbCaract(tabChoixPotar[choixPotar]);i--)ecranOLED.print(' ');
+  ecranOLED.print(F("Potentio.:"));
+  for(int i=5;i>compteNbCaract(tabChoixPotar[choixPotar]);i--)ecranOLED.print(' ');
   miseEnFormeMenu(1,1);
   ecranOLED.print(tabChoixPotar[choixPotar]);
   miseEnFormeMenu(1,0);
@@ -282,11 +282,18 @@ void updateOLED(float valeur)
   if(choixUnite==1)ecranOLED.print(F("Ohm"));
   if(choixUnite==2)ecranOLED.print(F("Degre"));
   miseEnFormeMenu(2,2);
-  ecranOLED.print(F("\n\nMesure :\n         "));
-  ecranOLED.print(valeur);
+  ecranOLED.print(F("\n- - - - - - - - - - -"));
+  ecranOLED.print(F("\nMesure :\nCap.Graph. "));
+  ecranOLED.print(valeurCapGraph);
   ecranOLED.print(' ');
   if(choixUnite==0)ecranOLED.print('V');
   if(choixUnite==1)ecranOLED.print(F("MO"));
+  if(choixUnite==2)ecranOLED.print(F("deg"));
+  ecranOLED.print(F("\nFlexCapt.  "));
+  ecranOLED.print(valeurFlexSensor);
+  ecranOLED.print(' ');
+  if(choixUnite==0)ecranOLED.print('V');
+  if(choixUnite==1)ecranOLED.print(F("O"));
   if(choixUnite==2)ecranOLED.print(F("deg"));
 
   ecranOLED.display();
@@ -343,6 +350,19 @@ float conversionMesure(float mesure)
   if(choixUnite==0)return(mesure*5.0/1023.0);
   if(choixUnite==1)return(((1+100000.0/tabChoixPotar[choixPotar])*100000.0*(5.0/mesure)-110000.0)/1000000.0);
   return(-1);
+}
+
+float choixMesureFlex(float flexVolt, float flexRes, float flexAngle)
+{
+  if(choixUnite==0){
+    return(5.0*flexVolt/1023.0);
+  }
+  if(choixUnite==1){
+    return(flexRes);
+  }
+  if(choixUnite==2){
+    return(flexAngle);
+  }
 }
 
 /*
