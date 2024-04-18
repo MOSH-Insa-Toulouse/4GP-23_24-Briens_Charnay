@@ -2080,7 +2080,7 @@
 		(descr "Through hole straight socket strip, 1x02, 2.54mm pitch, single row (from Kicad 4.0.7), script generated")
 		(tags "Through hole socket strip THT 1x02 2.54mm single row")
 		(property "Reference" "J5"
-			(at 0 -2.77 270)
+			(at 0 -2.77 -90)
 			(layer "F.SilkS")
 			(uuid "2328fbda-e3d7-453a-bcfd-6d0ecbb15a3c")
 			(effects
@@ -2091,7 +2091,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02_Pin"
-			(at 0 5.31 270)
+			(at 0 5.31 -90)
 			(layer "F.Fab")
 			(uuid "629a12c8-c761-4614-80c2-c8d13a440abc")
 			(effects
@@ -2293,7 +2293,7 @@
 			(uuid "c1523d59-6fb2-478c-97ef-fab7dee5a515")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 1.27 360)
+			(at 0 1.27 0)
 			(layer "F.Fab")
 			(uuid "5c3e6ae7-12d3-4f14-8ad3-9afdc05d15f0")
 			(effects
@@ -5973,7 +5973,7 @@
 			)
 		)
 		(property "Value" "100k"
-			(at 5.08 2.37 90)
+			(at 5.28 -3.225 90)
 			(layer "F.Fab")
 			(uuid "4092f40e-7e62-40c5-9352-28716f8a5bb3")
 			(effects
