@@ -11,8 +11,8 @@
 #define flexflatResistance 25000
 #define flexbendResistance 100000
 
-#define bluetoothRxPin 8
-#define bluetoothTxPin 7
+#define bluetoothRxPin 7
+#define bluetoothTxPin 8
 #define baudrate 9600
 #define sizeBuffer 16
 SoftwareSerial mySerial(bluetoothRxPin,bluetoothTxPin);
@@ -25,11 +25,11 @@ char bufferBluetoothInput[sizeBuffer]={0};
 uint8_t upState;
 uint8_t lastUpState=1;
 long upTimer;
-#define downButton 5
+#define downButton 2
 uint8_t downState;
 uint8_t lastDownState=1;
 long downTimer;
-#define selectButton 12
+#define selectButton 4
 uint8_t selectState;
 uint8_t lastSelectState=1;
 long selectTimer;
@@ -41,9 +41,9 @@ long selectTimer;
 #define adresseI2CecranOLED     0x3C
 Adafruit_SSD1306 ecranOLED(nombreDePixelsEnLargeur, nombreDePixelsEnHauteur, &Wire, brocheResetOLED);
 
-#define nbOptionsPotar 5
+#define nbOptionsPotar 9
 #define nbOptionsUnite 3
-const int tabChoixPotar[nbOptionsPotar]={1,10,100,1000,10000};
+const uint32_t tabChoixPotar[nbOptionsPotar]={340,1000,2000,5000,10200,20500,30600,40900,51000};
 uint8_t choixPotar=4;
 uint8_t choixUnite=0;
 uint8_t positionMenu=0;
@@ -54,7 +54,7 @@ uint8_t selection=0;
 #define MCP_SHTDWN 0b00100001
 
 const uint8_t ssMCPin = 10;
-const int adresseChoixPotar[nbOptionsPotar]={1,102,153,204,255};
+const int adresseChoixPotar[nbOptionsPotar]={1,4,9,50,101,102,153,204,255};
 
 const uint8_t VCC=5;
 
@@ -74,6 +74,7 @@ void setup() {
   pinMode(bluetoothTxPin,OUTPUT);
   mySerial.begin(baudrate);
   bufferBluetoothOutput[0]='\0';
+  bufferBluetoothOutput[sizeBuffer-1]='\0';
 
   //~~ Boutons ~~//
   pinMode(upButton,INPUT_PULLUP);
@@ -97,9 +98,9 @@ void loop() {
   //else{choixPotar=4;}
 
    //~~~~~~~~~~~~~~~~ Flex Sensor ~~~~~~~~~~~~~~~~//
-  int temp=analogRead(flexPin);
-  if(temp==0)temp=1;//eviter division par 0 dans la formule suivante
-  float flexRes=flexR_DIV*(1023.0/temp-1.0);
+  int flexVolt=analogRead(flexPin);
+  if(flexVolt==0)flexVolt=1;//eviter division par 0 dans la formule suivante
+  float flexRes=flexR_DIV*(1023.0/flexVolt-1.0);
   float flexAngle=map(flexRes,flexflatResistance,flexbendResistance,0,90.0);
 
   //Serial.println("Cadeau, res : "+String(flexRes)+" ; angle : "+String(flexAngle)+"°.");
@@ -109,23 +110,38 @@ void loop() {
 
   //~~~~~~~~~~~~~~~~ Bluetooth ~~~~~~~~~~~~~~~~//
   commBluetooth(bufferBluetoothOutput,bufferBluetoothInput);
-  sendMsg('d',millis()+0.1234567,4);
+  if(bufferBluetoothInput[0]=='d'){//si l'app envoie une demande de "data"
+    char unit='V';
+    if(choixUnite==1)unit='O';
+    if(choixUnite==2)unit='D';
+    //un message composé de l'unité et de la mesure est envoyé
+    sendMsg(unit,conversionMesure(ampliVolt),6);
+  }
+  if(bufferBluetoothInput[0]=='V'){
+    choixUnite=0;
+  }
+  if(bufferBluetoothInput[0]=='O'){
+    choixUnite=1;
+  }
+  if(bufferBluetoothInput[0]=='D'){
+    choixUnite=2;
+  }
+  bufferBluetoothInput[0]='\0';
   
   //~~~~~~~~~~~~~~~~ Boutons ~~~~~~~~~~~~~~~~//
   debouncingButtons();
 
   //~~~~~~~~~~~~~~~~ OLED ~~~~~~~~~~~~~~~~//
-  updateOLED(positionMenu);
-  Serial.println(F("Hello"));
-  Serial.print(F("Potentiometre(0-4) : "));
+  updateOLED(conversionMesure(ampliVolt),choixMesureFlex(flexVolt,flexRes,flexAngle));
+  //Serial.println(ampliVolt);
+  /*Serial.print(F("Potentiometre(0-4) : "));
   Serial.print(choixPotar);
   Serial.print(F(" ; Unite(0-2) : "));
   Serial.println(choixUnite);
   Serial.print(F(" ; selection(V/F) : "));
   Serial.print(selection);
   Serial.print(F(" ; positionMenu(0-2) : "));
-  Serial.println(positionMenu);
-  Serial.println(F("bye\n"));
+  Serial.println(positionMenu);*/
   
   //~~~~~~~~~~~~~~~~ Potentiometre digital ~~~~~~~~~~~~~~~~//
   updatePotar();
@@ -133,7 +149,7 @@ void loop() {
   //~~~~~~~~~~~~~~~~ Servomoteur ~~~~~~~~~~~~~~~~//
   //protocoleTest();
 
-  delay(20);
+  //delay(20);
 }
 
 void debouncingButtons()
@@ -233,13 +249,19 @@ void commBluetooth(char* bufferOutput, char* bufferInput)
 
 void sendMsg(char command,float data,int precision)
 {//ATTENTION : cette fonction écrase le buffer output du bluetooth, toute donnée encore en attente sera perdue
+  for(int i=1;i<sizeBuffer-1;i++){
+    bufferBluetoothOutput[i]='/';
+  }
   bufferBluetoothOutput[0]=command;
   char temp[sizeBuffer-1];
   dtostrf(data,0,precision,temp);
-  strcpy(&bufferBluetoothOutput[1],temp);
+  strcpy(&bufferBluetoothOutput[1],temp);//1
+  for(int i=1;i<sizeBuffer-1;i++){
+    if(bufferBluetoothOutput[i]=='\0')bufferBluetoothOutput[i]='/';
+  }
 }
 
-void updateOLED(int valeur)
+void updateOLED(float valeurCapGraph,float valeurFlexSensor)
 {
   ecranOLED.clearDisplay();
   ecranOLED.setTextSize(1,1);
@@ -247,8 +269,8 @@ void updateOLED(int valeur)
   ecranOLED.setTextColor(SSD1306_WHITE);
 
   ecranOLED.print(F(" ~ Controle mesure ~\n\n"));
-  ecranOLED.print(F("Potentiometre :\n         "));
-  for(int i=6;i>compteNbChiffres(tabChoixPotar[choixPotar]);i--)ecranOLED.print(' ');
+  ecranOLED.print(F("Potentio.:"));
+  for(int i=5;i>compteNbCaract(tabChoixPotar[choixPotar]);i--)ecranOLED.print(' ');
   miseEnFormeMenu(1,1);
   ecranOLED.print(tabChoixPotar[choixPotar]);
   miseEnFormeMenu(1,0);
@@ -258,14 +280,21 @@ void updateOLED(int valeur)
   miseEnFormeMenu(2,1);
   if(choixUnite==0)ecranOLED.print(F("Volt"));
   if(choixUnite==1)ecranOLED.print(F("Ohm"));
-  if(choixUnite==2)ecranOLED.print(F("Ampere"));
+  if(choixUnite==2)ecranOLED.print(F("Degre"));
   miseEnFormeMenu(2,2);
-  ecranOLED.print(F("\n\nMesure :\n         "));
-  ecranOLED.print(compteNbChiffres(tabChoixPotar[choixPotar]));
+  ecranOLED.print(F("\n- - - - - - - - - - -"));
+  ecranOLED.print(F("\nMesure :\nCap.Graph. "));
+  ecranOLED.print(valeurCapGraph);
   ecranOLED.print(' ');
   if(choixUnite==0)ecranOLED.print('V');
-  if(choixUnite==1)ecranOLED.print('O');
-  if(choixUnite==2)ecranOLED.print('A');
+  if(choixUnite==1)ecranOLED.print(F("MO"));
+  if(choixUnite==2)ecranOLED.print(F("deg"));
+  ecranOLED.print(F("\nFlexCapt.  "));
+  ecranOLED.print(valeurFlexSensor);
+  ecranOLED.print(' ');
+  if(choixUnite==0)ecranOLED.print('V');
+  if(choixUnite==1)ecranOLED.print(F("O"));
+  if(choixUnite==2)ecranOLED.print(F("deg"));
 
   ecranOLED.display();
 }
@@ -305,16 +334,37 @@ void updatePotar()
   SPIWrite(MCP_WRITE,adresseChoixPotar[choixPotar],ssMCPin);
 }
 
-int compteNbChiffres(int cible)
+int compteNbCaract(float cible)
 {
   uint8_t compte=1;
   uint32_t comparateur=10;
-  while(cible>comparateur-1){
+  while(cible>=comparateur){
     compte++;
     comparateur*=10;
   }
   return(compte);
 }
+
+float conversionMesure(float mesure)
+{
+  if(choixUnite==0)return(mesure*5.0/1023.0);
+  if(choixUnite==1)return(((1+100000.0/tabChoixPotar[choixPotar])*100000.0*(5.0/mesure)-110000.0)/1000000.0);
+  return(-1);
+}
+
+float choixMesureFlex(float flexVolt, float flexRes, float flexAngle)
+{
+  if(choixUnite==0){
+    return(5.0*flexVolt/1023.0);
+  }
+  if(choixUnite==1){
+    return(flexRes);
+  }
+  if(choixUnite==2){
+    return(flexAngle);
+  }
+}
+
 /*
 void protocoleTest()
 {
