@@ -2,28 +2,60 @@
 #include <Servo.h>
 Servo myservo;
 
-int angletotservo 270;
-int nbrepts 27;
-char tableangleservo[nbrepts]={0};
-int paservo=angletotservo/nbrpts;
-int indexservo=0;
-int testencours=0;
+#define pinServo 9
+#define nbSteps 28
+#define angleMaxServo 270
+#define pinTx 11
+#define pinRx 12
 
-void setup() {
-myservo.attach(9);
+int tableangleservo[nbSteps]={0};
+int pasServo=angleMaxServo/(nbSteps-1);
+uint8_t indexServo=0;
+uint8_t testencours=0;
 
-for(indexservo=0;indexservo<nbrepts;indexservo++) 
-{
-  tableangleservo[indexservo]=tableangleservo[indexservo-1]+paservo;
-}
-  indexservo=0;
+uint8_t valueTx=0;
+uint8_t lastRx=0;
+
+void setup(){
+  myservo.attach(pinServo);
+  myservo.write(0);
+  for(indexServo=0;indexServo<nbSteps;indexServo++) 
+  {
+    tableangleservo[indexServo]=indexServo*pasServo;
+  }
+  pinMode(pinTx,OUTPUT);
+  pinMode(pinRx,INPUT_PULLUP);
+  indexServo=0;
+  Serial.begin(9600);
+  Serial.println("test");
+  Serial.println(pasServo);
 }
 
 void loop() {
-  if(testencours=1){
-    myservo.write(tableangleservo[indexservo]);
-    delay(500);
-    indexservo++;
+  if((testencours==1)&&(indexServo<nbSteps)){
+    delay(2000);
+    myservo.write(tableangleservo[indexServo]);
+    Serial.println((int)tableangleservo[indexServo]);
+    indexServo++;
+  }
+  else{
+    indexServo=0;
+    testencours=0;
+    myservo.write(0);
+  }
+  syncTest();
 }
 
+void syncTest()
+{
+  uint8_t readRx;
+  readRx=digitalRead(pinRx);
+  if(readRx==1){
+    testencours=1;
+    valueTx=1;
+  }
+  if(testencours==0){
+    valueTx=0;
+  }
+  digitalWrite(pinTx,valueTx);
 }

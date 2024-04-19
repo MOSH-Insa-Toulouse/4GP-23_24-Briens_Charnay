@@ -94,7 +94,7 @@ void setup() {
 
   //~~ Test automatisé ~~//
   pinMode(syncTxPin,OUTPUT);
-  pinMode(syncRxPin,INPUT);
+  pinMode(syncRxPin,INPUT_PULLUP);
 }
 
 void loop() {
@@ -129,6 +129,9 @@ void loop() {
   }
   if(bufferBluetoothInput[0]=='D'){
     choixUnite=2;
+  }
+  if(bufferBluetoothInput[0]=='t'){
+    syncTx=1;
   }
   bufferBluetoothInput[0]='\0';
   
@@ -369,13 +372,11 @@ float choixMesureFlex(float flexVolt, float flexRes, float flexAngle)
   }
 }
 
-
 void syncTest()
 {
   digitalWrite(syncTxPin,syncTx);
   uint8_t syncRx;
   syncRx=digitalRead(syncRxPin);
-  Serial.println(syncRx);
   if(((syncTx==1)&&(syncRx==1))&&(pastRx==0)){
     sendMsg('c',0,2);
     syncTx=0;
