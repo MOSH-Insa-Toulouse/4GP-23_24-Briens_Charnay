@@ -44,7 +44,7 @@ Adafruit_SSD1306 ecranOLED(nombreDePixelsEnLargeur, nombreDePixelsEnHauteur, &Wi
 #define nbOptionsPotar 9
 #define nbOptionsUnite 3
 const uint32_t tabChoixPotar[nbOptionsPotar]={340,1000,2000,5000,10200,20500,30600,40900,51000};
-uint8_t choixPotar=4;
+uint8_t choixPotar=0;
 uint8_t choixUnite=0;
 uint8_t positionMenu=0;
 uint8_t selection=0;
@@ -58,7 +58,10 @@ const int adresseChoixPotar[nbOptionsPotar]={1,4,9,50,101,102,153,204,255};
 
 const uint8_t VCC=5;
 
-uint8_t testEnCours=1;
+#define syncTxPin 12
+#define syncRxPin 9
+uint8_t syncTx=0;
+uint8_t pastRx=0;
 
 void setup() {
   Serial.begin(baudrate);
@@ -89,8 +92,9 @@ void setup() {
   digitalWrite(ssMCPin,HIGH);
   SPI.begin();
 
-  //~~ Controle Servomoteur ~~//
-  //myservo.attach(pinServo);
+  //~~ Test automatisé ~~//
+  pinMode(syncTxPin,OUTPUT);
+  pinMode(syncRxPin,INPUT);
 }
 
 void loop() {
@@ -115,7 +119,7 @@ void loop() {
     if(choixUnite==1)unit='O';
     if(choixUnite==2)unit='D';
     //un message composé de l'unité et de la mesure est envoyé
-    sendMsg(unit,conversionMesure(ampliVolt),6);
+    sendMsg(unit,conversionMesure(ampliVolt),4);
   }
   if(bufferBluetoothInput[0]=='V'){
     choixUnite=0;
@@ -146,8 +150,8 @@ void loop() {
   //~~~~~~~~~~~~~~~~ Potentiometre digital ~~~~~~~~~~~~~~~~//
   updatePotar();
 
-  //~~~~~~~~~~~~~~~~ Servomoteur ~~~~~~~~~~~~~~~~//
-  //protocoleTest();
+  //~~~~~~~~~~~~~~~~ Test automatisé ~~~~~~~~~~~~~~~~//
+  //syncTest();
 
   //delay(20);
 }
@@ -365,11 +369,18 @@ float choixMesureFlex(float flexVolt, float flexRes, float flexAngle)
   }
 }
 
-/*
-void protocoleTest()
+
+void syncTest()
 {
-  int pos=30*choixPotar;
-  Serial.print(F("\nPos : "));
-  Serial.println(pos);
-  if(testEnCours)myservo.write(pos);
-}*/
+  digitalWrite(syncTxPin,syncTx);
+  uint8_t syncRx;
+  syncRx=digitalRead(syncRxPin);
+  if(((syncTx)&&(syncRx))&&(pastRx==0)){
+    sendMsg('c',0,2);
+    syncTx=0;
+  }
+  if((syncRx==0)&&(pastRx)){
+    sendMsg('f',0,2);
+  }
+  pastRx=syncRx;
+}
