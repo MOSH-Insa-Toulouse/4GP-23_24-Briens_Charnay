@@ -15,6 +15,7 @@ uint8_t testencours=0;
 
 uint8_t valueTx=0;
 uint8_t lastRx=0;
+int readRx;
 
 void setup(){
   myservo.attach(pinServo);
@@ -24,18 +25,18 @@ void setup(){
     tableangleservo[indexServo]=indexServo*pasServo;
   }
   pinMode(pinTx,OUTPUT);
-  pinMode(pinRx,INPUT_PULLUP);
+  pinMode(pinRx,INPUT);
   indexServo=0;
   Serial.begin(9600);
   Serial.println("test");
-  Serial.println(pasServo);
+  //Serial.println(pasServo);
 }
 
 void loop() {
   if((testencours==1)&&(indexServo<nbSteps)){
     delay(2000);
     myservo.write(tableangleservo[indexServo]);
-    Serial.println((int)tableangleservo[indexServo]);
+    //Serial.println((int)tableangleservo[indexServo]);
     indexServo++;
   }
   else{
@@ -48,8 +49,16 @@ void loop() {
 
 void syncTest()
 {
-  uint8_t readRx;
+  //uint8_t readRx;
   readRx=digitalRead(pinRx);
+  Serial.print("Comm : T-R ");
+  Serial.print(valueTx);
+  Serial.print(' ');
+  Serial.println(readRx);
+  Serial.print("Actua : i t ");
+  Serial.print(indexServo);
+  Serial.print(' ');
+  Serial.println(testencours);
   if(readRx==1){
     testencours=1;
     valueTx=1;

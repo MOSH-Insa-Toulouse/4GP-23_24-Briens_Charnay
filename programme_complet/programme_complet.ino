@@ -62,6 +62,7 @@ const uint8_t VCC=5;
 #define syncRxPin 9
 uint8_t syncTx=0;
 uint8_t pastRx=0;
+uint8_t syncRx=0;
 
 void setup() {
   Serial.begin(baudrate);
@@ -94,7 +95,7 @@ void setup() {
 
   //~~ Test automatisé ~~//
   pinMode(syncTxPin,OUTPUT);
-  pinMode(syncRxPin,INPUT_PULLUP);
+  pinMode(syncRxPin,INPUT);
 }
 
 void loop() {
@@ -290,7 +291,11 @@ void updateOLED(float valeurCapGraph,float valeurFlexSensor)
   if(choixUnite==2)ecranOLED.print(F("Degre"));
   miseEnFormeMenu(2,2);
   ecranOLED.print(F("\n- - - - - - - - - - -"));
-  ecranOLED.print(F("\nMesure :\nCap.Graph. "));
+  ecranOLED.print(F("\nMesure :T-R "));
+  ecranOLED.print(syncTx);
+  ecranOLED.print(' ');
+  ecranOLED.print(syncRx);
+  ecranOLED.print(F("\nCap.Graph. "));
   ecranOLED.print(valeurCapGraph);
   ecranOLED.print(' ');
   if(choixUnite==0)ecranOLED.print('V');
@@ -375,7 +380,7 @@ float choixMesureFlex(float flexVolt, float flexRes, float flexAngle)
 void syncTest()
 {
   digitalWrite(syncTxPin,syncTx);
-  uint8_t syncRx;
+  //uint8_t syncRx;
   syncRx=digitalRead(syncRxPin);
   if(((syncTx==1)&&(syncRx==1))&&(pastRx==0)){
     sendMsg('c',0,2);
