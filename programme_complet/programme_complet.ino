@@ -151,7 +151,7 @@ void loop() {
   updatePotar();
 
   //~~~~~~~~~~~~~~~~ Test automatisé ~~~~~~~~~~~~~~~~//
-  //syncTest();
+  syncTest();
 
   //delay(20);
 }
@@ -375,11 +375,12 @@ void syncTest()
   digitalWrite(syncTxPin,syncTx);
   uint8_t syncRx;
   syncRx=digitalRead(syncRxPin);
-  if(((syncTx)&&(syncRx))&&(pastRx==0)){
+  Serial.println(syncRx);
+  if(((syncTx==1)&&(syncRx==1))&&(pastRx==0)){
     sendMsg('c',0,2);
     syncTx=0;
   }
-  if((syncRx==0)&&(pastRx)){
+  if((syncRx==0)&&(pastRx==1)){
     sendMsg('f',0,2);
   }
   pastRx=syncRx;
