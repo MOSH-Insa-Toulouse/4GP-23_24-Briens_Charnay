@@ -3,10 +3,11 @@
 Servo myservo;
 
 #define pinServo 9
-#define nbSteps 28
-#define angleMaxServo 270
+#define nbSteps 25
+#define angleMaxServo 120
 #define pinTx 11
 #define pinRx 12
+#define delayPalierMesure 4000
 
 int tableangleservo[nbSteps]={0};
 int pasServo=angleMaxServo/(nbSteps-1);
@@ -34,7 +35,7 @@ void setup(){
 
 void loop() {
   if((testencours==1)&&(indexServo<nbSteps)){
-    delay(2000);
+    delay(delayPalierMesure);
     myservo.write(tableangleservo[indexServo]);
     //Serial.println((int)tableangleservo[indexServo]);
     indexServo++;

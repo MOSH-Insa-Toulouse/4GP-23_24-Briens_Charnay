@@ -41,9 +41,9 @@ long selectTimer;
 #define adresseI2CecranOLED     0x3C
 Adafruit_SSD1306 ecranOLED(nombreDePixelsEnLargeur, nombreDePixelsEnHauteur, &Wire, brocheResetOLED);
 
-#define nbOptionsPotar 9
+#define nbOptionsPotar 12
 #define nbOptionsUnite 3
-const uint32_t tabChoixPotar[nbOptionsPotar]={340,1000,2000,5000,10200,20500,30600,40900,51000};
+const uint32_t tabChoixPotar[nbOptionsPotar]={125,330,730,1130,1930,2530,5100,10020,19920,30600,40600,50300};
 uint8_t choixPotar=0;
 uint8_t choixUnite=0;
 uint8_t positionMenu=0;
@@ -54,7 +54,7 @@ uint8_t selection=0;
 #define MCP_SHTDWN 0b00100001
 
 const uint8_t ssMCPin = 10;
-const int adresseChoixPotar[nbOptionsPotar]={1,4,9,50,101,102,153,204,255};
+const int adresseChoixPotar[nbOptionsPotar]={0,1,3,5,9,12,25,50,100,155,205,255};
 
 const uint8_t VCC=5;
 
@@ -211,7 +211,7 @@ void upButtonAction()
   }
   else{
     if(positionMenu==1){
-      choixPotar=(choixPotar+1)%5;
+      choixPotar=(choixPotar+1)%nbOptionsPotar;
     }
     if(positionMenu==2){
       choixUnite=(choixUnite+1)%nbOptionsUnite;
@@ -291,10 +291,7 @@ void updateOLED(float valeurCapGraph,float valeurFlexSensor)
   if(choixUnite==2)ecranOLED.print(F("Degre"));
   miseEnFormeMenu(2,2);
   ecranOLED.print(F("\n- - - - - - - - - - -"));
-  ecranOLED.print(F("\nMesure :T-R "));
-  ecranOLED.print(syncTx);
-  ecranOLED.print(' ');
-  ecranOLED.print(syncRx);
+  ecranOLED.print(F("\nMesure :"));
   ecranOLED.print(F("\nCap.Graph. "));
   ecranOLED.print(valeurCapGraph);
   ecranOLED.print(' ');
