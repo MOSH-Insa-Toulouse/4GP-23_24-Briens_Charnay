@@ -152,3 +152,17 @@ L'arduino du banc de test possède un programme bien plus simple et direct. Celu
 *Fichier associé* : programme_second_arduino/prog_second_arduino/prog_second_arduino.ino
 ***
 ## Datasheet
+Finalement, la combinaison de tous ces éléments a permis la récolte de données, et la rédaction d'une datasheet complète du capteur graphite. Celle-ci est divisée en plusieurs catégories :
+- Caractéristiques générales : points clés à l'avantage du capteur ;
+- Description : description de la physique du fonctionnement du capteur, développement de ses avantages clés, objectif du développement du capteur ;
+- Description des pins : description des pins et signaux du capteur, permettant son implémentation électronique ;
+- Dimensions : description matérielle du capteur ;
+- Spécifications : description technique concise du capteur ;
+- Conditions d'utilisation standard : conditions environnementales classiques, pour lesquelles le capteur a été développé ;
+- Caractéristiques électriques : pour les différentes variantes du capteur (en fonction du crayon utilisé), évolution de la résistance absolue et relative en fonction de l'angle ;
+- Utilisation typique : exemple d'un circuit électronique typique dans lequel implémenter le capteur pour en tirer des données.
+Ce circuit électronique typique correspond à celui que nous avons réalisé sur l'arduino du capteur, et présenté précédemment.
+
+Cette datasheet permet à tout nouvel arrivant de produire et d'utiliser notre capteur graphite : dans un esprit Low-Tech et Open Source.
+
+*Fichier associé* : Datasheet_strain_gauge-MCharnay-ABriens.pdf
