@@ -53,6 +53,7 @@ Les pins utilisés sont supposés classiques, comme par exemple des pinces méta
 ***
 ## Circuit Electronique Analogique
 
+![LT_Spice_simulation_capteur_commentaires](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/48d0beea-ff83-46e7-bfb4-71f7b1bc4c06)
 
 
 ## Kicad
@@ -73,6 +74,11 @@ Logiciel utilisé pour la réalisation du shield électronique PCB
 
 ***
 ## Banc de test
+
+![Banc_de_test](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/7de21b09-a287-4363-acf6-149e1b020e2a)
+
+
+
 
 ***
 ## IHM
