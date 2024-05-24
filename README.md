@@ -53,12 +53,23 @@ Les pins utilisés sont supposés classiques, comme par exemple des pinces méta
 ***
 ## Circuit Electronique Analogique
 
-***
+
+
 ## Kicad
 Logiciel utilisé pour la réalisation du shield électronique PCB
+
+
+
 ### Schematic
 
+
+
+***![Kicad_schematic](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/80586963-72e6-4f57-b002-da07260c54e4)
+
 ### PCB
+
+![Kicad_pcb](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/19ffef8f-08a0-4ab1-8dbb-274e28ce296c)
+
 
 ***
 ## Banc de test
