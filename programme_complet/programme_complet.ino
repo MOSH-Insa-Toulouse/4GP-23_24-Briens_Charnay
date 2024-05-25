@@ -357,7 +357,9 @@ int compteNbCaract(float cible)
 float conversionMesure(float mesure)
 {
   if(choixUnite==0)return(mesure*5.0/1023.0);
-  if(choixUnite==1)return(((1+100000.0/tabChoixPotar[choixPotar])*100000.0*(5.0/mesure)-110000.0)/1000000.0);
+  double resistance=(((1+100000.0/tabChoixPotar[choixPotar])*100000.0*(5.0/mesure))-110000.0);
+  if(choixUnite==1)return(resistance/1000000.0);
+  if(choixUnite==2)return((resistance-98768)/2475.5);//calcul valide pour un crayon 2B
   return(-1);
 }
 
