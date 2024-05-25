@@ -54,7 +54,7 @@ Les pins utilisés sont supposés classiques, comme par exemple des pinces méta
 ## Circuit Electronique Analogique
 
 L'impédance de notre capteur graphite est de l'ordre du gigaOhm, les courants et les variations de courant à mesurer seront donc très faible. Afin que l'entrée convertisseur analogique numérique de l'arduino puisse détecter ces variations de tension, nous avons dû réaliser un circuit d'amplification. Nous avons choisi un montage transimpédance à deux étages en utilisant l'amplificateur opérationnel LTC 1050. Ce montage permet de convertir le courant en tension ainsi que de réaliser un gain conséquent. Le montage final, présenté ci-dessous, inclut aussi plusieurs filtres :
-: 
+
 - R5 en entrée protège l'ampli opérationnel contre les décharges électrostatiques, en
 forme avec C1 un filtre pour les bruits en tension
 - C1 avec R1 forme un filtre pour le bruit en courant
