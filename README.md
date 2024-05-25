@@ -65,6 +65,8 @@ forme avec C1 un filtre pour les bruits en tension
 
 ![LT_Spice_simulation_capteur_commentaires](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/48d0beea-ff83-46e7-bfb4-71f7b1bc4c06)
 
+*Fichier associé* : Circuit_capteur_final.asc
+
 ***
 ## Kicad
 La réalisation du shield électronique PCB nous avons utilisé le logiciel Kicad 8.0.
@@ -85,6 +87,8 @@ Nous avons ajouté plusieurs composants :
 
 ![Kicad_schematic](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/80586963-72e6-4f57-b002-da07260c54e4)
 
+*Fichier associé* : Shield_capteur.kicad_sch
+
 ***
 ### PCB
 
@@ -99,6 +103,9 @@ Les dimensionnements sont les suivants :
 
   Le plan de masse a été généré automatiquement par Kicad. En effectuant le test de vérification des règles de dessin, nous avons pu corriger des erreurs de placement ou de superposition des composants.
 L'organisation de notre PCB nous a permis de ne pas avoir besoin de créer des VIAs. Nous avons ensuite pu imprimer le masque de notre circuit afin de réaliser le shield par voie chimique.
+
+*Fichier associé* : Shield_capteur.kicad_pcb
+
 ***
 ## Banc de test
 
