@@ -53,20 +53,39 @@ Les pins utilisés sont supposés classiques, comme par exemple des pinces méta
 ***
 ## Circuit Electronique Analogique
 
+L'impédance de notre capteur graphite est de l'ordre du gigaOhm, les courants et les variations de courant à mesurer seront donc très faible. Afin que l'entrée convertisseur analogique numérique de l'arduino puisse détecter ces variations de tension, nous avons dû réaliser un circuit d'amplification. Nous avons choisi un montage transimpédance à deux étages en utilisant l'amplificateur opérationnel LTC 1050. Ce montage permet de convertir le courant en tension ainsi que de réaliser un gain conséquent. Le montage final, présenté ci-dessous, inclut aussi plusieurs filtres :
+: 
+- R5 en entrée protège l'ampli opérationnel contre les décharges électrostatiques, en
+forme avec C1 un filtre pour les bruits en tension
+- C1 avec R1 forme un filtre pour le bruit en courant
+- R2 sera interchangeable, pour permettre une adaptation du calibre
+- C4 avec R3 forme un filtre actif
+- C2 avec R6 forme le filtre de sortie
+- C3 filtre le bruit d'alimentation
+
 ![LT_Spice_simulation_capteur_commentaires](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/48d0beea-ff83-46e7-bfb4-71f7b1bc4c06)
 
-
+***
 ## Kicad
-La réalisation du shield électronique PCB nous avons utilisé le logiciel Kicad.
-
-
+La réalisation du shield électronique PCB nous avons utilisé le logiciel Kicad 8.0.
 
 ### Schematic
 
-La première étape a été de réaliser le schematic du circuit electronique analogique en implantant les différents composants que nous avons vu dans la partie cirtuit electronique analogique.
+La première étape a été de réaliser le schematic du circuit electronique analogique en implantant les différents composants que nous avons vu dans la partie cirtuit electronique analogique. Nous avons uniquement remplacé le résistance R2 par le potentiomètre digital MCP-41050. Cela nous permet de faire varier la résistance R2 et donc d'avoir la possibilité de jouer sur le gain de l'amplificateur.
 
-***![Kicad_schematic](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/80586963-72e6-4f57-b002-da07260c54e4)
+Nous avons ajouté plusieurs composants :
 
+- Le capteur graphite
+- Un capteur flex dans le but de le comparer avec notre solution lowtech
+- Un écran OLED afin d'afficher les valeurs mesurées ainsi que la valeur de résistance du potentiomètre digital.
+- Un module bluetooth HC-6 pour pouvoir communiquer avec une application Android
+- Des boutons qui permettrons de se déplacer dans le menu et de selectionner un champ
+- Le shield pour connecter l'arduino
+- Un filtre passif pour les bruits venant de l'alimentation
+
+![Kicad_schematic](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/80586963-72e6-4f57-b002-da07260c54e4)
+
+***
 ### PCB
 
 Nous avons ensuite pu implanter les différents composants sur le PCB comme présenté ci-dessous.
@@ -77,12 +96,17 @@ Les dimensionnements sont les suivants :
 - La largeur des pistes est de 0,8mm
 - Les pads circulaires pour les composants ont un diamètre de 2,54mm avec un trou circulaire de 0,8mm
 - Les pads ovoïde pour les raccordements par pins ont une largeur de 2mm et une longueur de 2,54mm. Les pins de raccordements pour l'arduino nécessite un trou de 1mm de diamètre. Les pads pour les supports de plaques ont quand à eux un trou de 0,8mm
+
+  Le plan de masse a été généré automatiquement par Kicad. En effectuant le test de vérification des règles de dessin, nous avons pu corriger des erreurs de placement ou de superposition des composants.
+L'organisation de notre PCB nous a permis de ne pas avoir besoin de créer des VIAs. Nous avons ensuite pu imprimer le masque de notre circuit afin de réaliser le shield par voie chimique.
 ***
 ## Banc de test
 
+Afin de réaliser des mesures précises et reproductibles, nous avons réalisé un banc de test complet. Celui-ci est composé de différents composants présentés ci-dessous :
+
 ![Banc_de_test](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/7de21b09-a287-4363-acf6-149e1b020e2a)
 
-
+Comme présenté sur la photo détaillée, nous avons utilisé un second arduino pour réaliser notre banc de test. Ce dernier contrôle le servomoteur qui permet l'enroulement d'un cable autour d'une poulie. Cela permet de plier d'un pas choisi, de manière très contrôlé et reproductible le capteur graphite. Ce second arduino est branché sur les pins l'arduino principal afin qu'une synchronisation entre les changements de degrés et la mesure puisse s'effectuer. Vous trouverez plus de détails sur la communication entre les deux arduino dans la partie programmation. 
 
 
 ***
