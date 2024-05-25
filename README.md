@@ -57,21 +57,26 @@ Les pins utilisés sont supposés classiques, comme par exemple des pinces méta
 
 
 ## Kicad
-Logiciel utilisé pour la réalisation du shield électronique PCB
+La réalisation du shield électronique PCB nous avons utilisé le logiciel Kicad.
 
 
 
 ### Schematic
 
-
+La première étape a été de réaliser le schematic du circuit electronique analogique en implantant les différents composants que nous avons vu dans la partie cirtuit electronique analogique.
 
 ***![Kicad_schematic](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/80586963-72e6-4f57-b002-da07260c54e4)
 
 ### PCB
 
+Nous avons ensuite pu implanter les différents composants sur le PCB comme présenté ci-dessous.
+
 ![Kicad_pcb](https://github.com/MOSH-Insa-Toulouse/4GP-23_24-Briens_Charnay/assets/160030278/19ffef8f-08a0-4ab1-8dbb-274e28ce296c)
 
-
+Les dimensionnements sont les suivants :
+- La largeur des pistes est de 0,8mm
+- Les pads circulaires pour les composants ont un diamètre de 2,54mm avec un trou circulaire de 0,8mm
+- Les pads ovoïde pour les raccordements par pins ont une largeur de 2mm et une longueur de 2,54mm. Les pins de raccordements pour l'arduino nécessite un trou de 1mm de diamètre. Les pads pour les supports de plaques ont quand à eux un trou de 0,8mm
 ***
 ## Banc de test
 
